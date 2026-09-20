@@ -1,309 +1,236 @@
-<title>看天气 · Bryan 提示词 01</title>
+<title>18 小时，3 个月</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap">
 <style>
 :root{
-  --ground:#EDF1F3; --paper:#F8FAFB; --ink:#0E1A28; --body:#2A394C; --muted:#56657A; --rule:#CAD3DB;
-  --hero:#0E1A28; --hero-ink:#FFFFFF; --hero-muted:#9FB4C6; --hero-line:rgba(255,255,255,.28);
-  --storm:#E4572E; --storm-ink:#FFFFFF; --storm-soft:#FBEDE7;
-  --calm:#2F8F83; --calm-soft:#E4F1EF; --pale:#6FA6BC; --amber:#D4951C; --red:#C4402A;
-  --chip:#E3E9ED; --code:#0E1A28; --code-ink:#E9EFF4; --code-key:#FFB08F;
+  --ground:#FAFBFC; --surface:#FFFFFF; --sunk:#F1F4F7;
+  --ink:#14293E; --body:#41536A; --muted:#71829A; --rule:#DFE5EC; --hair:#EAEEF3;
+  --storm:#D9531E; --storm-ink:#FFFFFF; --storm-soft:#FDF0E9; --storm-line:#F3C9B4;
+  --calm:#2F8F83; --sleep:#C3D0DC;
   --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --serif:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif;
   --mono:"IBM Plex Mono",ui-monospace,Consolas,"Noto Sans SC",monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0B141D; --paper:#111D28; --ink:#E6EDF3; --body:#C3CFDA; --muted:#8FA1B3; --rule:#243444;
-    --hero:#111D28; --hero-line:rgba(255,255,255,.18);
-    --storm:#F0714A; --storm-ink:#1A0B05; --storm-soft:#2E1A14;
-    --calm:#4FB3A5; --calm-soft:#132A28; --pale:#6FA6BC; --amber:#E0A83A; --red:#DD5A43;
-    --chip:#1A2836; --code:#08111A; --code-ink:#DCE6EE;
+    --ground:#101A24; --surface:#17232F; --sunk:#1B2835;
+    --ink:#EAF0F6; --body:#C4D0DC; --muted:#92A2B4; --rule:#2A3947; --hair:#22303D;
+    --storm:#FF7F4F; --storm-ink:#1A0B05; --storm-soft:#2C1A12; --storm-line:#5A3324;
+    --calm:#4FB3A5; --sleep:#3A4B5C;
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0B141D; --paper:#111D28; --ink:#E6EDF3; --body:#C3CFDA; --muted:#8FA1B3; --rule:#243444;
-  --hero:#111D28; --hero-line:rgba(255,255,255,.18);
-  --storm:#F0714A; --storm-ink:#1A0B05; --storm-soft:#2E1A14;
-  --calm:#4FB3A5; --calm-soft:#132A28; --pale:#6FA6BC; --amber:#E0A83A; --red:#DD5A43;
-  --chip:#1A2836; --code:#08111A; --code-ink:#DCE6EE;
+  --ground:#101A24; --surface:#17232F; --sunk:#1B2835;
+  --ink:#EAF0F6; --body:#C4D0DC; --muted:#92A2B4; --rule:#2A3947; --hair:#22303D;
+  --storm:#FF7F4F; --storm-ink:#1A0B05; --storm-soft:#2C1A12; --storm-line:#5A3324;
+  --calm:#4FB3A5; --sleep:#3A4B5C;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;padding-inline:16px}
-.wrap{max-width:760px;margin:0 auto;padding-block:20px 48px;display:grid;gap:48px}
-h1,h2,h3,p{margin:0}
-h1,h2,h3{text-wrap:balance;line-height:1.25}
-.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.85;padding-inline:20px}
+.wrap{max-width:620px;margin:0 auto;padding-block:36px 52px;display:grid;gap:40px}
+h1,h2,h3,p,ul,ol,figure,blockquote,figcaption,table{margin:0}
+h1,h2,h3{line-height:1.3;text-wrap:balance;color:var(--ink)}
+p{color:var(--body)}
+p b{color:var(--ink)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--storm);font-weight:600}
 :focus-visible{outline:2px solid var(--storm);outline-offset:3px;border-radius:3px}
-.tick{font-family:var(--mono);font-weight:600;font-size:.86em;background:var(--chip);border:1px solid var(--rule);padding:0 5px;border-radius:3px;white-space:nowrap;color:var(--ink)}
 
-/* hero */
-.hero{background:var(--hero);color:var(--hero-ink);border-radius:4px;padding:36px 28px 26px;position:relative;overflow:hidden;border:1px solid var(--rule)}
-.isobars{position:absolute;right:-120px;top:-90px;width:520px;height:520px;pointer-events:none}
-.hero > *:not(.isobars){position:relative}
-.hero .eyebrow{color:var(--hero-muted)}
-.hero h1{font-size:clamp(64px,17vw,112px);font-weight:900;line-height:1;margin:28px 0 12px;letter-spacing:.02em}
-.hero h1 em{font-style:normal;color:var(--storm)}
-.hero .sub{font-size:19px;font-weight:500;color:#D5DFE8}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.tag{font-family:var(--mono);font-size:12px;border:1px solid var(--hero-line);color:#E6EDF3;border-radius:2px;padding:3px 10px}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-.btn{appearance:none;border:0;font:inherit;font-weight:700;font-size:16px;border-radius:4px;padding:12px 20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:filter .15s ease,transform .1s ease}
+/* opening */
+.open{display:grid;gap:16px;border-top:5px solid var(--storm);padding-top:22px}
+.open h1{font-family:var(--serif);font-weight:900;font-size:clamp(32px,8vw,48px);line-height:1.25}
+.open h1 em{font-style:normal;color:var(--storm)}
+.open .sub{font-size:18px}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.facts span{font-family:var(--mono);font-size:12.5px;color:var(--muted);border:1px solid var(--rule);border-radius:999px;padding:2px 11px;background:var(--surface)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.btn{appearance:none;border:0;font:inherit;font-weight:700;font-size:16px;border-radius:4px;padding:13px 22px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:filter .15s ease,transform .1s ease}
 .btn:active{transform:translateY(1px)}
 .btn.primary{background:var(--storm);color:var(--storm-ink)}
-.btn.primary:hover{filter:brightness(1.07)}
-.btn.ghost{background:transparent;color:#E6EDF3;box-shadow:inset 0 0 0 1.5px var(--hero-line)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.line{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--rule)}
+.btn.line:hover{box-shadow:inset 0 0 0 1.5px var(--muted)}
+.btn.big{font-size:18px;padding:15px 26px}
 
-/* read first */
-.readfirst{display:grid;grid-template-columns:120px 1fr;gap:20px}
-.readfirst .eyebrow{color:var(--storm);font-weight:600;padding-top:6px}
-.readfirst h2{font-size:24px;font-weight:900;margin-bottom:14px}
-.readfirst p{color:var(--body);max-width:36em}
-.readfirst p + p{margin-top:10px}
-.readfirst b{color:var(--ink)}
+/* chapters — everything flush to the same left edge */
+.ch{display:grid;gap:14px}
+.ch > .no{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--storm);margin-bottom:-6px}
+.ch h2{font-family:var(--serif);font-weight:700;font-size:clamp(23px,5.2vw,30px)}
+.lead-in{font-size:18.5px;color:var(--ink)}
 
-/* section head */
-.shead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 16px;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:20px}
-.shead h2{font-size:28px;font-weight:900}
-.shead h2 small{display:block;font-family:var(--mono);font-size:12px;font-weight:500;color:var(--storm);letter-spacing:.14em;margin-bottom:4px}
-.shead .freq{font-size:14px;color:var(--muted);text-align:right}
-.shead .freq b{display:block;font-family:var(--mono);font-size:18px;color:var(--ink);line-height:1.3}
+blockquote{font-family:var(--serif);font-weight:700;font-size:clamp(21px,4.8vw,27px);line-height:1.55;color:var(--ink);border-left:4px solid var(--storm);padding-left:18px}
+blockquote small{display:block;font-family:var(--sans);font-weight:400;font-size:15px;color:var(--muted);margin-top:10px;line-height:1.75}
 
-/* dimensions */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.panel{background:var(--paper);border:1px solid var(--rule);padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px}
-.ph{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
-.ph .n{font-family:var(--mono);font-size:28px;font-weight:600;color:var(--storm);line-height:1}
-.ph h3{font-size:19px;font-weight:900}
-.ph .key{margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
-.badge{font-family:var(--mono);font-size:11px;font-weight:600;background:var(--storm);color:var(--storm-ink);padding:1px 6px;border-radius:2px}
-.panel .ask{font-weight:700;font-size:15px}
-.panel p{font-size:14.5px;color:var(--body);line-height:1.65}
-.chart{width:100%;height:auto;display:block}
-.chart .grid-l{stroke:var(--rule)}
-.chart .spy{stroke:var(--ink)}
-.chart .ma50{stroke:var(--calm)}
-.chart .ma200{stroke:var(--pale)}
-.chart .dot{fill:var(--storm)}
-.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
-.legend i{display:inline-block;width:16px;border-top:2px solid;vertical-align:middle;margin-right:5px}
-.vix-bar,.vix-scale{display:grid;grid-template-columns:15fr 7fr 8fr 12fr}
-.vix-bar{height:36px;border-radius:2px;overflow:hidden}
-.vix-bar div{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;text-align:center;line-height:1.2}
-.vix-scale{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:4px}
-.vix-scale span{border-left:1px solid var(--rule);padding-left:4px}
-.rates{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.rates div{border:1px solid var(--rule);background:var(--ground);text-align:center;padding:8px 0}
-.rates b{display:block;font-size:22px;line-height:1.2}
-.rates span{font-size:13px;color:var(--muted)}
-.sectors{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sectors div{padding:10px 12px;border-top:3px solid}
-.sectors .on{border-color:var(--storm);background:var(--storm-soft)}
-.sectors .off{border-color:var(--calm);background:var(--calm-soft)}
-.sectors b{font-size:14px;display:block;margin-bottom:4px}
-.sectors ul{list-style:none;margin:0;padding:0;font-size:13.5px;line-height:2}
+figure{background:var(--surface);border:1px solid var(--rule);border-radius:4px;padding:18px}
+figcaption{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure h3{font-size:15px;margin-bottom:12px}
 
-.verdict{margin-top:16px;background:var(--hero);color:var(--hero-ink);padding:20px 22px 22px;border:1px solid var(--rule)}
-.verdict .eyebrow{color:var(--hero-muted)}
-.verdict h3{font-size:20px;font-weight:900;margin:4px 0 14px}
-.regimes{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
-.regimes div{border:1px solid var(--hero-line);text-align:center;font-size:14px;font-weight:700;padding:8px 2px}
-.calls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
-.calls div{background:rgba(255,255,255,.08);text-align:center;font-size:14px;padding:8px 4px;color:#E6EDF3}
+/* 30 years */
+.yrs-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.track{height:34px;margin-top:8px;display:flex;border:1px solid var(--storm-line);border-radius:3px;overflow:hidden;background:var(--sunk)}
+.track .run{flex:1;background:var(--storm-soft);border-right:2px solid var(--storm);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--ink)}
+.track .rest{width:24%;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
 
-/* how + prompt */
-.how{list-style:none;margin:0 0 20px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
-.how li{counter-increment:s;border-top:2px solid var(--ink);padding-top:8px}
-.how li::before{content:"STEP " counter(s);font-family:var(--mono);font-size:12px;color:var(--storm);font-weight:600;letter-spacing:.1em}
-.how b{display:block;font-size:17px;margin:2px 0 4px}
-.how p{font-size:14px;color:var(--muted)}
-.prompt{background:var(--code);color:var(--code-ink);border-radius:4px;overflow:hidden;border:1px solid var(--rule)}
-.prompt-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 10px 10px 16px;border-bottom:1px solid rgba(255,255,255,.12)}
-.prompt-bar .mono{font-size:12px;color:#9FB4C6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.prompt-bar .btn{padding:8px 14px;font-size:14px}
-#prompt{margin:0;padding:18px 20px 22px;font-family:var(--sans);font-size:15px;line-height:1.85;white-space:pre-wrap;word-break:break-word}
-#prompt .h{color:#fff;font-weight:700}
-#prompt .k{font-family:var(--mono);color:var(--code-key)}
+/* day */
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:76px 1fr;align-items:center;gap:12px}
+.bar .lb{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.bar .fill{height:24px;border-radius:2px;display:flex;align-items:center;padding:0 10px;font-size:13px;font-weight:700;white-space:nowrap}
+.bar .work{width:75%;background:var(--storm);color:var(--storm-ink)}
+.bar .sleep{width:17%;background:var(--sleep);color:var(--ink)}
+.jobs{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.jobs span{font-size:13.5px;background:var(--sunk);border:1px solid var(--rule);border-radius:999px;padding:3px 12px;color:var(--ink)}
 
-/* next + footer */
-.next{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border:2px solid var(--ink);padding:20px 22px;background:var(--paper)}
-.next .eyebrow{color:var(--storm);font-weight:600}
-.next p{font-size:17px;font-weight:700;margin-top:4px;max-width:28em}
-.handle{font-family:var(--mono);font-size:20px;font-weight:600;background:var(--storm);color:var(--storm-ink);padding:10px 18px;text-decoration:none;white-space:nowrap}
-.webinar{position:relative;overflow:hidden;background:var(--hero);color:var(--hero-ink);border:1px solid var(--rule);border-top:4px solid var(--storm);border-radius:4px;padding:30px 26px 28px;display:grid;gap:14px;justify-items:start}
-.webinar .isobars{right:-140px;top:-120px;width:460px;height:460px}
-.webinar > *:not(.isobars){position:relative}
-.webinar .eyebrow{color:var(--storm);font-weight:600}
-.webinar h2{font-size:clamp(26px,6vw,34px);font-weight:900}
-.webinar .lead{font-size:17px;color:#D5DFE8;max-width:32em}
-.perks{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--hero-muted)}
+/* mistakes */
+.amount{font-family:var(--mono);font-size:clamp(38px,10vw,56px);font-weight:600;color:var(--storm);line-height:1;letter-spacing:-.02em}
+.amount small{display:block;font-family:var(--sans);font-size:14px;font-weight:400;color:var(--muted);letter-spacing:0;margin-top:8px}
+.mistakes{display:grid;gap:10px}
+.mistakes div{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--storm);border-radius:0 4px 4px 0;padding:12px 16px}
+.mistakes b{display:block;font-size:17px;color:var(--ink)}
+.mistakes span{font-size:15px;color:var(--muted)}
+
+/* vs table */
+table{width:100%;border-collapse:collapse;font-size:15.5px}
+th{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted);text-align:left;font-weight:500;padding:0 12px 8px 0;border-bottom:1.5px solid var(--rule)}
+th.ai{color:var(--storm);padding-right:0}
+td{padding:11px 12px 11px 0;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--body)}
+td:first-child{font-weight:700;color:var(--ink);white-space:nowrap;width:64px}
+td:last-child{padding-right:0;color:var(--ink)}
+tr:last-child td{border-bottom:0}
+
+/* now */
+.now{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.now div{background:var(--surface);border:1px solid var(--rule);border-top:3px solid var(--calm);border-radius:0 0 4px 4px;padding:14px 16px}
+.now b{display:block;font-size:16px;color:var(--ink);margin-bottom:2px}
+.now span{font-size:14.5px;color:var(--muted);line-height:1.65}
+
+/* webinar */
+.webinar{background:var(--storm-soft);border:1px solid var(--storm-line);border-top:5px solid var(--storm);border-radius:4px;padding:26px 24px;display:grid;gap:14px;justify-items:start}
+.webinar h2{font-family:var(--serif);font-size:clamp(25px,5.8vw,32px);font-weight:900}
+.webinar .lead{font-size:17px;color:var(--body)}
+.perks{list-style:none;padding:0;display:grid;gap:5px;font-size:15px;color:var(--body)}
 .perks li::before{content:"✓ ";color:var(--storm);font-weight:700}
-.btn.big{font-size:18px;padding:15px 28px;margin-top:4px}
-@media (max-width:640px){.webinar{padding:24px 20px}.btn.big{width:100%}}
-.disc{font-size:12.5px;color:var(--muted);margin-top:14px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);background:var(--ink);color:var(--ground);font-weight:700;font-size:15px;padding:11px 18px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;max-width:calc(100% - 32px);text-align:center}
-.toast.show{opacity:1;transform:translate(-50%,0)}
+.note{font-size:13px;color:var(--muted);line-height:1.75}
 
-@media (max-width:640px){
-  .hero{padding:28px 20px 22px}
-  .readfirst{grid-template-columns:1fr;gap:6px}
-  .grid,.how{grid-template-columns:1fr}
-  .regimes{grid-template-columns:repeat(3,1fr)}
-  .calls{grid-template-columns:1fr}
-  .actions .btn{flex:1 1 auto}
-  .shead h2{font-size:24px}
+@media (max-width:600px){
+  body{font-size:16px}
+  .wrap{gap:36px}
+  .now{grid-template-columns:1fr}
+  .actions .btn,.btn.big{width:100%}
+  .bar{grid-template-columns:68px 1fr;gap:8px}
+  .webinar{padding:22px 18px}
 }
 </style>
 
 <main class="wrap">
-  <header class="hero">
-    <svg class="isobars" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-      <g stroke="#9FB4C6" stroke-opacity=".25" stroke-width=".4">
-        <ellipse cx="120" cy="80" rx="24" ry="16"/><ellipse cx="118" cy="82" rx="38" ry="26"/>
-        <ellipse cx="115" cy="85" rx="54" ry="38"/><ellipse cx="111" cy="89" rx="72" ry="52"/>
-        <ellipse cx="106" cy="94" rx="92" ry="68"/>
-      </g>
-      <ellipse cx="120" cy="80" rx="12" ry="8" stroke="#E4572E" stroke-opacity=".6" stroke-width=".5"/>
-      <text x="116.6" y="82.3" fill="#E4572E" font-family="IBM Plex Mono, monospace" font-size="6" font-weight="600">H</text>
-    </svg>
-    <p class="eyebrow">Bryan · AI × Trading ／ 免费提示词包</p>
-    <h1>看<em>天气</em></h1>
-    <p class="sub">每周日找股票前，先判断大盘环境</p>
-    <div class="tags"><span class="tag">提示词 1</span><span class="tag">每周跑一次</span><span class="tag">Claude · ChatGPT · Gemini</span></div>
+  <header class="open">
+    <p class="eyebrow">Bryan · AI × Trading ／ 我的故事</p>
+    <h1>每天 18 小时，睡 4 小时，<em>做了 3 个月。</em></h1>
+    <p class="sub">那三个月，我在美国洗碗、倒垃圾、做厨房备料。回来之后，我再也不想把接下来的 30 年，交给老鼠赛跑。</p>
+    <div class="facts"><span>22 岁</span><span>马来西亚</span><span>机械工程硕士在读</span><span>用 AI 做交易系统</span></div>
     <div class="actions">
-      <button class="btn primary" type="button" id="copy-top" data-copy>复制提示词</button>
-      <a class="btn ghost" href="#dims">看 4 个维度</a>
+      <a class="btn line" href="#story">从头看我的故事</a>
+      <a class="btn primary" href="#webinar">免费报名分享会</a>
     </div>
   </header>
 
-  <section class="readfirst" aria-labelledby="rf-title">
-    <p class="eyebrow">先读这个</p>
-    <div>
-      <h2 id="rf-title">好的 AI 不是替你做判断，而是把你本该花一整天的研究，压缩到每只股票 5 分钟。</h2>
-      <p>如果你 2026 年了还在刷推特、花一整天来选股，那你是在用最难的方式做事。</p>
-      <p>这是我每周日找股票前，<b>必跑的提示词</b>。Claude、ChatGPT、Gemini 都能用。把 <span class="tick">[TICKER]</span> 换成你关注的任意股票代码。</p>
-    </div>
+  <section class="ch" id="story">
+    <p class="no">CHAPTER 01</p>
+    <h2>20 岁那年，恐惧开始吞掉我</h2>
+    <p class="lead-in">我怕自己不够成功。怕实现不了梦想。怕未来就这样定下来了。</p>
+    <p>我现在在读机械工程硕士。我算过毕业之后能拿多少、几年能涨到哪里。数字很清楚，离我想要的生活很远。</p>
+    <p>然后我算了另一笔账：如果照这条路走下去，我要跑 <b>30 年</b>。朝九晚五，用时间换一点点钱。想到这里，我真的会怕。</p>
+    <figure>
+      <div class="yrs-row"><span>22 岁　现在</span><span>52 岁</span></div>
+      <div class="track"><span class="run">老鼠赛跑 · 30 年</span><span class="rest">然后呢？</span></div>
+      <figcaption>我不是看不起这条路。我只是算完之后，没办法说服自己走下去。</figcaption>
+    </figure>
   </section>
 
-  <section id="dims" aria-labelledby="dims-title">
-    <div class="shead">
-      <h2 id="dims-title"><small>提示词 1 ／ 大盘环境判断</small>AI 会帮你看这 4 个维度</h2>
-      <p class="freq"><b>1 页纸</b>每周一次</p>
-    </div>
-    <div class="grid">
-      <article class="panel">
-        <div class="ph"><span class="n">1</span><h3>趋势</h3><span class="badge">最重要</span><span class="key">SPY · 50D · 200D</span></div>
-        <p class="ask">SPY 在 50 日和 200 日均线之上还是之下？50 日线在 200 日线之上还是之下？</p>
-        <svg class="chart" viewBox="0 0 200 64" aria-label="示意图：SPY 走在 50 日线之上，50 日线在 200 日线之上">
-          <g class="grid-l" stroke-width=".3"><line x1="0" y1="16" x2="200" y2="16"/><line x1="0" y1="32" x2="200" y2="32"/><line x1="0" y1="48" x2="200" y2="48"/></g>
-          <polyline class="ma200" fill="none" stroke-width="1.4" points="0,54 40,51 80,47 120,43 160,39 200,35"/>
-          <polyline class="ma50" fill="none" stroke-width="1.4" points="0,52 40,47 80,41 120,35 160,29 200,24"/>
-          <polyline class="spy" fill="none" stroke-width="1.6" points="0,47 15,43 28,46 42,37 55,40 70,31 84,34 98,24 112,28 126,20 140,23 154,16 168,19 184,11 196,13"/>
-          <circle class="dot" cx="196" cy="13" r="2.2"/>
-        </svg>
-        <div class="legend"><span><i style="border-color:var(--ink)"></i>SPY</span><span><i style="border-color:var(--calm)"></i>50 日线</span><span><i style="border-color:var(--pale)"></i>200 日线</span></div>
-        <p>这是最重要的环境信号，决定这周该偏向 V1 优质复利股，还是 V2 逆向布局。</p>
-      </article>
-
-      <article class="panel">
-        <div class="ph"><span class="n">2</span><h3>波动率</h3><span class="key">VIX vs 20 日均值</span></div>
-        <p class="ask">当前 VIX 相对 20 日均值，我们在哪个区间？</p>
-        <div>
-          <div class="vix-bar">
-            <div style="background:var(--pale)">自满</div><div style="background:var(--calm)">正常</div>
-            <div style="background:var(--amber)">恐慌</div><div style="background:var(--red)">极度恐慌</div>
-          </div>
-          <div class="vix-scale"><span>&lt; 15</span><span>15–22</span><span>22–30</span><span>30+</span></div>
-        </div>
-        <p>VIX 是市场的「恐慌温度计」：太低代表大家太放心，太高代表大家在恐慌。</p>
-      </article>
-
-      <article class="panel">
-        <div class="ph"><span class="n">3</span><h3>利率</h3><span class="key">10Y · 30 天</span></div>
-        <p class="ask">过去 30 天，10 年期美债收益率往哪里走？</p>
-        <div class="rates"><div><b>↓</b><span>降息</span></div><div><b>→</b><span>暂停</span></div><div><b>↑</b><span>加息</span></div></div>
-        <p>留意利率敏感板块是否已有反应：公用事业 <span class="tick">XLU</span>、REITs <span class="tick">XLRE</span>。它们往往领先于收益率曲线。</p>
-      </article>
-
-      <article class="panel">
-        <div class="ph"><span class="n">4</span><h3>领涨板块</h3><span class="key">30 天 · 前 3</span></div>
-        <p class="ask">过去 30 天，领涨和领跌的前 3 个板块是哪些？</p>
-        <div class="sectors">
-          <div class="on"><b>risk-on　周期性领涨</b><ul><li><span class="tick">XLK</span> 科技</li><li><span class="tick">XLY</span> 可选消费</li><li><span class="tick">XLC</span> 通讯</li></ul></div>
-          <div class="off"><b>risk-off　防御性领涨</b><ul><li><span class="tick">XLP</span> 必需消费</li><li><span class="tick">XLU</span> 公用事业</li><li><span class="tick">XLV</span> 医疗</li></ul></div>
-        </div>
-      </article>
-    </div>
-
-    <div class="verdict">
-      <p class="eyebrow">AI 最后会给你</p>
-      <h3>一个市场定性 + 一句话结论</h3>
-      <div class="regimes"><div>强牛市</div><div>温和牛市</div><div>震荡</div><div>回调</div><div>熊市</div><div>复苏</div></div>
-      <div class="calls"><div>逢低买入</div><div>逢涨卖出</div><div>「现金也是一种仓位」</div></div>
-    </div>
+  <section class="ch">
+    <p class="no">CHAPTER 02</p>
+    <h2>美国那三个月，把我打醒</h2>
+    <p>我去美国做 J1 Work and Travel。早上 6 点出门，做到半夜 12 点。<b>每天 18 小时，睡 4 小时，连续 3 个月。</b></p>
+    <figure>
+      <h3>我在美国的一天</h3>
+      <div class="bars">
+        <div class="bar"><span class="lb">6am–12am</span><span class="fill work">工作 18 小时</span></div>
+        <div class="bar"><span class="lb">12am–6am</span><span class="fill sleep">睡 4 小时</span></div>
+      </div>
+      <div class="jobs"><span>洗碗</span><span>倒垃圾</span><span>厨房备料</span><span>超市</span></div>
+    </figure>
+    <p>从小我想要什么就有什么。环游世界、想买就买，我以为那是理所当然的。</p>
+    <p>那三个月，我累到脑袋都是空的。也是在那个时候，我第一次真的懂了那句话。</p>
+    <blockquote>生在福中不知福。<small>这三个月没有让我赚到钱。它只是让我知道，我以前拥有的东西有多贵。</small></blockquote>
   </section>
 
-  <section aria-labelledby="prompt-title">
-    <div class="shead">
-      <h2 id="prompt-title"><small>提示词 1 ／ 复制使用</small>整段复制，贴进你的 AI</h2>
-      <p class="freq"><b>约 5 分钟</b>每周日</p>
+  <section class="ch">
+    <p class="no">CHAPTER 03</p>
+    <h2>然后我亏掉了 10,000 美金</h2>
+    <p>回来之后，我满脑子都是怎么赚更多钱。我从一个前辈的影片开始接触交易，第一次看到有人可以那样读懂一张图，我很震撼。</p>
+    <p>但我学得太急。</p>
+    <p class="amount">-$10,000<small>我交的学费，三个错误换来的</small></p>
+    <div class="mistakes">
+      <div><b>追 meme coin</b><span>看到在涨就进去，理由只有「大家都在买」。</span></div>
+      <div><b>跟单</b><span>别人开我就开。赚了不知道为什么赚，亏了也不知道为什么亏。</span></div>
+      <div><b>满仓开单</b><span>一单押上全部。对一次很爽，错一次就没了。</span></div>
     </div>
-    <ol class="how">
-      <li><b>打开联网搜索</b><p>Claude、ChatGPT、Gemini 都可以，记得开启搜索功能，它才查得到最新数据。</p></li>
-      <li><b>整段贴上送出</b><p>下面框里的文字一字不改，整段复制贴上。</p></li>
-      <li><b>记下这周的定性</b><p>每周日跑一次，把结果存下来，一个月后回头对照。</p></li>
-    </ol>
-    <div class="prompt">
-      <div class="prompt-bar"><span class="mono">PROMPT 01 · 看天气（大盘环境判断）</span><button class="btn primary" type="button" id="copy-main" data-copy>复制整段</button></div>
-<pre id="prompt" tabindex="0">搜索近期财经新闻和 FRED 数据。给我一份 1 页纸的市场环境判断，涵盖 4 个维度：
-
-<span class="h">1. 趋势</span>——<span class="k">SPY</span> 在 50 日和 200 日均线之上还是之下？50 日线在 200 日线之上还是之下？（这是最重要的环境信号——决定我这周该偏向 V1 优质复利股，还是 V2 逆向布局。）
-
-<span class="h">2. 波动率</span>——当前 <span class="k">VIX</span> 相对 20 日均值。&lt;15 = 自满，15–22 = 正常，22–30 = 恐慌，30+ = 极度恐慌。我们在哪个区间？
-
-<span class="h">3. 利率</span>——过去 30 天 10 年期美债收益率走向。降息、暂停还是加息？留意利率敏感板块（公用事业 <span class="k">XLU</span>、REITs/<span class="k">XLRE</span>）是否已有反应——它们往往领先于收益率曲线。
-
-<span class="h">4. 领涨板块</span>——过去 30 天领涨／领跌前 3 板块。周期性板块领涨（科技 <span class="k">XLK</span>、可选消费 <span class="k">XLY</span>、通讯 <span class="k">XLC</span>）= risk-on；防御性板块领涨（必需消费 <span class="k">XLP</span>、公用事业 <span class="k">XLU</span>、医疗 <span class="k">XLV</span>）= risk-off。
-
-给出市场定性：强牛市、温和牛市、震荡、回调、熊市或复苏。最后用一句话给出结论：逢低买入、逢涨卖出，还是「现金也是一种仓位」。</pre>
-    </div>
+    <p>这笔钱教我的事情其实很简单：<b>没有系统，你只是在赌。</b></p>
   </section>
 
-  <footer>
-    <div class="webinar">
-      <svg class="isobars" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-        <g stroke="#9FB4C6" stroke-opacity=".22" stroke-width=".4">
-          <ellipse cx="150" cy="60" rx="22" ry="15"/><ellipse cx="148" cy="62" rx="40" ry="28"/><ellipse cx="145" cy="66" rx="60" ry="42"/>
-        </g>
-      </svg>
-      <p class="eyebrow">这只是第 1 步 ／ 下一步在这里</p>
+  <section class="ch">
+    <p class="no">CHAPTER 04</p>
+    <h2>AI 不是替我做决定，是替我守纪律</h2>
+    <p>我开始用 AI，不是因为它聪明，是因为我知道自己不够稳。</p>
+    <table>
+      <thead><tr><th>　</th><th>我</th><th class="ai">AI</th></tr></thead>
+      <tbody>
+        <tr><td>情绪</td><td>会怕、会贪、想把亏的扳回来</td><td>零情绪</td></tr>
+        <tr><td>纪律</td><td>说好不追，还是会追</td><td>规则就是规则</td></tr>
+        <tr><td>数据</td><td>看几十张图就累了</td><td>大量数据照跑不误</td></tr>
+        <tr><td>执行</td><td>手会抖，也会手滑</td><td>条件到了才动手</td></tr>
+      </tbody>
+    </table>
+    <blockquote>AI 不替你找交易。你给它方向和条件，它负责找 setup、按你的规则执行。<small>这是我两年里最重要的一个转变：我要做的不是问 AI「买什么」，而是把我自己的交易条件写清楚，让它去盯、去找、去执行。</small></blockquote>
+    <p>方向还是我定的。系统还是我写的。AI 补上的，是我最缺的那一块 —— <b>纪律</b>。</p>
+  </section>
+
+  <section class="ch">
+    <p class="no">CHAPTER 05</p>
+    <h2>两年过去，变的不只是账户</h2>
+    <p>这两年我学的不只是交易，而是对钱的整个看法。</p>
+    <div class="now">
+      <div><b>懂了复利</b><span>时间站在哪一边，结果差很多。</span></div>
+      <div><b>让钱替我工作</b><span>而不是一辈子用时间换钱。</span></div>
+      <div><b>离开老鼠赛跑</b><span>我终于知道那条路要怎么走出去。</span></div>
+      <div><b>时间投在会累积的事</b><span>不再花在当下爽完就没了的事情上。</span></div>
+    </div>
+    <p>以前我是派对咖，周末一定要出去，跟朋友耗在一起是日常。现在我的时间、精力和钱，都放在能累积的东西上面。这大概是这两年最明显的改变。</p>
+  </section>
+
+  <section class="ch">
+    <p class="no">CHAPTER 06</p>
+    <h2>为什么我认为 2027 是最大的风口</h2>
+    <p>工具已经到位了。以前要一个团队才做得完的资料整理和分析，现在一个人用 AI 就能做。</p>
+    <p>但真正拿 AI 来<b>建系统</b>的人，还是很少。大部分人只是拿它聊天、问问题、写文案。</p>
+    <p class="lead-in">机会不在于 AI 有多厉害，而在于会用的人还不多。现在开始学，还算早。</p>
+    <p class="note">机会不等于保证。市场永远有风险，任何方法都要自己验证过，才知道适不适合你。</p>
+  </section>
+
+  <footer class="ch">
+    <div class="webinar" id="webinar">
+      <p class="eyebrow">想知道我是怎么做的？</p>
       <h2>免费线上 AI 投资分享会</h2>
-      <p class="lead">这只是研究提示词的第一步骤。想知道下一步骤是什么，那不能错过这一场免费的线上 AI 投资分享会，在里面可以学到更多更有价值的知识。</p>
+      <p class="lead">故事讲到这里，具体怎么做，我放在分享会里讲。线上参加，免费报名。</p>
       <ul class="perks">
-        <li>看完整的研究提示词流程</li>
-        <li>线上参加，免费报名</li>
+        <li>我怎么用 AI 整理和分析数据</li>
+        <li>怎么把自己的交易条件写成系统</li>
+        <li>这两年我踩过的坑，你可以少踩</li>
       </ul>
       <a class="btn primary big" href="https://jsfreecourse.com/r/jst-bio-7t08rlgccx?utm_source=BRYAN" target="_blank" rel="noopener">免费报名分享会 →</a>
     </div>
-    <p class="disc">本资料仅供学习交流。AI 的输出可能有误或过时，请自行核对数据来源；内容不构成投资建议或买卖信号，交易决策与风险由你自己承担。</p>
+    <p class="note">我分享的是我自己的经历和做法，不构成投资建议，也不是买卖信号。交易有风险，我的经历不代表你会有同样的结果。请自己做功课，风险自负。</p>
   </footer>
 </main>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script>
-(function(){
-  var pre=document.getElementById('prompt'), text=pre.textContent;
-  var toast=document.getElementById('toast'), timer;
-  function show(m){toast.textContent=m;toast.classList.add('show');clearTimeout(timer);timer=setTimeout(function(){toast.classList.remove('show');},2600);}
-  function legacy(){var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.top='-1000px';document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy');}catch(e){}document.body.removeChild(ta);return ok;}
-  function done(){show('已复制，去 Claude / ChatGPT / Gemini 贴上');}
-  function fail(){pre.scrollIntoView({block:'center'});var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);show('已帮你选好整段，长按或按 Ctrl+C 复制');}
-  document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
-    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(done,function(){legacy()?done():fail();});}
-    else{legacy()?done():fail();}
-  });});
-})();
-</script>
